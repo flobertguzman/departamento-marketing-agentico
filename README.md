@@ -56,6 +56,24 @@ Reinicia Claude Code.
 /loop 7d /departamento-marketing sprint   # recurrente
 ```
 
+## Versión para Codex (OpenAI)
+
+La carpeta [`codex/`](codex/) trae la misma estructura adaptada a Codex: skill en `~/.agents/skills/` y los 14 agentes como archivos `.toml` en `~/.codex/agents/`.
+
+```bash
+./codex/install.sh              # a nivel usuario
+./codex/install.sh --project    # solo en el proyecto actual (.agents/ y .codex/)
+```
+
+Reinicia Codex y usa `$departamento-marketing` (o escribe `$` y elígelo). Diferencias con Claude Code:
+
+- Codex **no delega por su cuenta**: el skill le pide lanzar los subagentes por nombre (`mkt_director`, `mkt_copywriter`…). Si no los lanza, pídelo: «lanza `mkt_investigador` y `mkt_seo_contenidos` en paralelo y resúmeme».
+- Los permisos (sandbox, aprobaciones) los heredan los subagentes de la sesión principal; las puertas humanas del loop siguen aplicando por instrucción.
+- No hay `/loop`: para repetir el ciclo corto, programa `codex exec '$departamento-marketing sprint'` con cron o launchd.
+- Prompt maestro para Codex: [`codex/PROMPT.md`](codex/PROMPT.md).
+
+La versión de Codex se genera desde la de Claude Code: edita `agents/` y `skills/` y corre `python3 tools/build_codex.py`.
+
 ## ¿Prefieres crearlo desde cero con un prompt?
 
 [`PROMPT.md`](PROMPT.md) contiene el prompt maestro para que Claude construya el departamento en cualquier proyecto.
@@ -70,4 +88,6 @@ skills/departamento-marketing/
   references/templates.md     # plantillas de estado
 PROMPT.md                     # prompt maestro
 install.sh
+codex/                        # versión Codex (generada): agents/*.toml, skills/, install.sh, PROMPT.md
+tools/build_codex.py          # regenera codex/ desde agents/ y skills/
 ```
