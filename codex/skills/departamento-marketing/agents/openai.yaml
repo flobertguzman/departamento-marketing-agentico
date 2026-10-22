@@ -1,0 +1,4 @@
+interface:
+  display_name: "Departamento de Marketing"
+  short_description: "14 agentes de marketing que trabajan en un loop: brief, investigación, estrategia, creación, publicación, medición y aprendizaje."
+  default_prompt: "Corre un ciclo del departamento de marketing para mi marca."

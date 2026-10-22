@@ -29,8 +29,8 @@ def parse_agent(path):
     return meta, m.group(2).strip()
 
 
-def build_agents():
-    (OUT / "agents").mkdir(parents=True, exist_ok=True)
+def build_agents(out_dir):
+    out_dir.mkdir(parents=True, exist_ok=True)
     for src in sorted((ROOT / "agents").glob("mkt-*.md")):
         meta, body = parse_agent(src)
         name = meta["name"]
@@ -47,7 +47,53 @@ def build_agents():
         lines.append("developer_instructions = '''")
         lines.append(body)
         lines.append("'''")
-        (OUT / "agents" / f"{cname}.toml").write_text("\n".join(lines) + "\n", encoding="utf-8")
+        (out_dir / f"{cname}.toml").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+INSTALL_AGENTS_SH = """#!/usr/bin/env sh
+# Instala los 14 agentes personalizados (mkt_*.toml) que acompañan a este skill.
+# Uso: install-agents.sh            -> ~/.codex/agents
+#      install-agents.sh --project  -> ./.codex/agents (proyecto actual)
+set -eu
+HERE="$(cd "$(dirname "$0")" && pwd)"
+SRC="$HERE/../custom-agents"
+if [ "${1:-}" = "--project" ]; then DEST="$PWD/.codex/agents"; else DEST="$HOME/.codex/agents"; fi
+mkdir -p "$DEST"
+cp "$SRC"/*.toml "$DEST"/
+echo "OK: $(ls "$SRC"/*.toml | wc -l | tr -d ' ') agentes instalados en $DEST"
+echo "Si Codex no los lista todavía, reinícialo."
+"""
+
+OPENAI_YAML = """interface:
+  display_name: "Departamento de Marketing"
+  short_description: "14 agentes de marketing que trabajan en un loop: brief, investigación, estrategia, creación, publicación, medición y aprendizaje."
+  default_prompt: "Corre un ciclo del departamento de marketing para mi marca."
+"""
+
+CODEX_AGENTS_MD = """# Instrucciones para Codex
+
+Esta carpeta contiene el **Departamento de Marketing Agéntico** para Codex: un skill (`skills/departamento-marketing`) y 14 agentes personalizados (`skills/departamento-marketing/custom-agents/*.toml`).
+
+## Si el usuario pide instalarlo («instala esto», «instálalo», «install this»)
+
+1. Ejecuta, desde esta carpeta, `./install.sh` (o `sh install.sh`). Para instalarlo solo en el proyecto actual: `./install.sh --project`.
+2. Verifica que existan `~/.agents/skills/departamento-marketing/SKILL.md` y los 14 archivos `~/.codex/agents/mkt_*.toml`.
+3. Responde al usuario con lo instalado y dile que use `$departamento-marketing`. Si Codex no muestra el skill o los agentes, que reinicie Codex.
+4. No modifiques ningún otro archivo, ni la configuración de Codex, ni ejecutes nada más.
+
+## Si el usuario pide usarlo
+Invoca el skill `departamento-marketing` y sigue su `SKILL.md`.
+"""
+
+
+def build_codex_extras(dst):
+    (dst / "scripts").mkdir(exist_ok=True)
+    sh = dst / "scripts" / "install-agents.sh"
+    sh.write_text(INSTALL_AGENTS_SH, encoding="utf-8")
+    sh.chmod(0o755)
+    (dst / "agents").mkdir(exist_ok=True)
+    (dst / "agents" / "openai.yaml").write_text(OPENAI_YAML, encoding="utf-8")
+    (OUT / "AGENTS.md").write_text(CODEX_AGENTS_MD, encoding="utf-8")
 
 
 def build_skill():
@@ -57,6 +103,9 @@ def build_skill():
         shutil.rmtree(dst)
     shutil.copytree(src, dst)
 
+    build_agents(dst / "custom-agents")
+    build_codex_extras(dst)
+
     p = dst / "SKILL.md"
     t = p.read_text(encoding="utf-8")
     w = "SKILL.md"
@@ -65,6 +114,17 @@ def build_skill():
         t,
         "> Los subagentes de Claude Code no pueden lanzar otros subagentes. Por eso el orquestador eres **tú (la sesión principal)** y los 14 perfiles viven en `agents/` (se instalan en `~/.claude/agents/` o `.claude/agents/`). Si los agentes no están instalados, ejecuta `install.sh` del repo o adopta cada rol leyendo su archivo en `agents/`.",
         "> El orquestador eres **tú (el hilo principal de Codex)**. Los 14 perfiles son agentes personalizados (`~/.codex/agents/*.toml`, o `.codex/agents/` en el proyecto) y los lanzas **pidiendo explícitamente subagentes**: Codex no delega por su cuenta salvo que se lo pidas. Si no están instalados, ejecuta `codex/install.sh` del repo o adopta cada rol leyendo su archivo `.toml`.",
+        w,
+    )
+    t = sub(
+        t,
+        "## El equipo\n",
+        "## Paso 0 — Verifica la instalación (hazlo siempre antes de un ciclo)\n\n"
+        "Comprueba que existe `~/.codex/agents/mkt_director.toml` (o `.codex/agents/` en el proyecto). Si faltan los agentes, "
+        "instálalos tú mismo ejecutando `sh <carpeta de este skill>/scripts/install-agents.sh` "
+        "(o con `--project` si el usuario lo quiere solo en este proyecto), avisa en una línea de lo que instalaste y, si Codex "
+        "no los lista, pide reiniciar. Mientras tanto puedes adoptar cada rol leyendo `custom-agents/<name>.toml`.\n\n"
+        "## El equipo\n",
         w,
     )
     t = sub(t, "| # | Agente (`subagent_type`) |", "| # | Agente personalizado (`name`) |", w)
@@ -140,8 +200,9 @@ def build_prompt():
 
 
 if __name__ == "__main__":
+    if OUT.exists():
+        shutil.rmtree(OUT / "agents", ignore_errors=True)
     OUT.mkdir(exist_ok=True)
-    build_agents()
     build_skill()
     build_prompt()
     print("Versión Codex generada en", OUT)

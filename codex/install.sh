@@ -4,22 +4,18 @@
 #      ./install.sh --project  -> en el directorio actual (.agents/skills y .codex/agents)
 set -euo pipefail
 
-SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/skills/departamento-marketing"
 
 if [[ "${1:-}" == "--project" ]]; then
   SKILLS="$PWD/.agents/skills"
-  AGENTS="$PWD/.codex/agents"
 else
   SKILLS="$HOME/.agents/skills"
-  AGENTS="$HOME/.codex/agents"
 fi
 
-mkdir -p "$SKILLS" "$AGENTS"
+mkdir -p "$SKILLS"
 rm -rf "$SKILLS/departamento-marketing"
-cp -R "$SRC/skills/departamento-marketing" "$SKILLS/"
-cp "$SRC/agents/"*.toml "$AGENTS/"
+cp -R "$SRC" "$SKILLS/"
+sh "$SKILLS/departamento-marketing/scripts/install-agents.sh" "$@"
 
-echo "Instalado:"
-echo "  - skill  -> $SKILLS/departamento-marketing"
-echo "  - $(ls "$SRC/agents" | wc -l | tr -d ' ') agentes -> $AGENTS"
+echo "Skill instalado en $SKILLS/departamento-marketing"
 echo "Reinicia Codex y usa:  \$departamento-marketing"

@@ -10,6 +10,10 @@ Tu trabajo no es hacer el marketing tú mismo: es **dirigir el loop**, despachar
 
 > El orquestador eres **tú (el hilo principal de Codex)**. Los 14 perfiles son agentes personalizados (`~/.codex/agents/*.toml`, o `.codex/agents/` en el proyecto) y los lanzas **pidiendo explícitamente subagentes**: Codex no delega por su cuenta salvo que se lo pidas. Si no están instalados, ejecuta `codex/install.sh` del repo o adopta cada rol leyendo su archivo `.toml`.
 
+## Paso 0 — Verifica la instalación (hazlo siempre antes de un ciclo)
+
+Comprueba que existe `~/.codex/agents/mkt_director.toml` (o `.codex/agents/` en el proyecto). Si faltan los agentes, instálalos tú mismo ejecutando `sh <carpeta de este skill>/scripts/install-agents.sh` (o con `--project` si el usuario lo quiere solo en este proyecto), avisa en una línea de lo que instalaste y, si Codex no los lista, pide reiniciar. Mientras tanto puedes adoptar cada rol leyendo `custom-agents/<name>.toml`.
+
 ## El equipo
 
 | # | Agente personalizado (`name`) | Misión | Entregable |

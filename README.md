@@ -60,6 +60,8 @@ Reinicia Claude Code.
 
 La carpeta [`codex/`](codex/) trae la misma estructura adaptada a Codex: skill en `~/.agents/skills/` y los 14 agentes como archivos `.toml` en `~/.codex/agents/`.
 
+**Instalar sin esfuerzo:** descarga el zip, ábrelo con Codex en esa carpeta y escribe `Instala esto.` (el `AGENTS.md` le dice qué hacer). Todas las formas, incluida la de una línea con `$skill-installer`, están en [INSTALL.md](INSTALL.md).
+
 ```bash
 ./codex/install.sh              # a nivel usuario
 ./codex/install.sh --project    # solo en el proyecto actual (.agents/ y .codex/)
@@ -88,6 +90,7 @@ skills/departamento-marketing/
   references/templates.md     # plantillas de estado
 PROMPT.md                     # prompt maestro
 install.sh
-codex/                        # versión Codex (generada): agents/*.toml, skills/, install.sh, PROMPT.md
+AGENTS.md · INSTALL.md        # para que Codex/Claude se instalen solos · formas de instalar
+codex/                        # versión Codex (generada): skills/ (con custom-agents/*.toml), install.sh, AGENTS.md, PROMPT.md
 tools/build_codex.py          # regenera codex/ desde agents/ y skills/
 ```
