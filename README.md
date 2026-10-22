@@ -21,6 +21,10 @@ Un skill de Claude Code que monta un **departamento de marketing de 14 agentes**
 | `mkt-email-crm` | Email Marketing y CRM — comunicaciones y seguimiento |
 | `mkt-analista` | Analista de Marketing — medición y mejoras |
 
+## Diseño que genera archivos
+
+El diseñador no solo describe: trae un [kit de diseño](skills/departamento-marketing/design/README.md) que convierte plantillas HTML en **PNG** (posts, stories, banners) con la paleta y tipografía de la marca, y avisa si el contraste no cumple AA. Solo necesita Python 3 y Chrome/Chromium/Edge/Brave. Compone texto, color e imágenes que tú aportes; **no genera fotos ni ilustraciones**. Ejemplos en [`design/examples/`](skills/departamento-marketing/design/examples/).
+
 ## El loop
 
 ```

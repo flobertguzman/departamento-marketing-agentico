@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+{{font_link}}
+<style>
+:root{--bg:{{bg}};--fg:{{fg}};--accent:{{accent}};--accent-fg:{{accent_fg}};--font-heading:{{font_heading}};--font-body:{{font_body}};--u:{{u}}px;--fit:{{fit}};--image:{{image_css}}}
+html,body{width:{{w}}px;height:{{h}}px}
+{{base_css}}
+</style>
+</head>
+<body class="layout-{{layout}} {{has_image}}">
+<div class="bg"></div><div class="shade"></div>
+<header>{{logo_html}}</header>
+<main><p class="kicker">{{kicker}}</p><h1>{{headline}}</h1><p class="sub">{{subhead}}</p></main>
+<footer>{{cta_html}}</footer>
+</body>
+</html>

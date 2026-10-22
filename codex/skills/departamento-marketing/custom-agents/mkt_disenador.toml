@@ -11,7 +11,12 @@ Fase 4, tras `04-concepto.md`. En paralelo con Copy y Audiovisual.
 
 ## Proceso
 1. **Sistema visual:** si no existe, define o consolida: logo (usos y zonas de respeto), paleta con valores HEX/RGB/CMYK, tipografías y jerarquías, retícula, estilo de imagen e iconografía.
-2. **Piezas:** produce cada pieza del mapa del Director Creativo en los formatos del canal (p. ej. 1080×1350, 1080×1920, 1200×628, 1600×900). Usa las herramientas del proyecto (HTML/SVG → PNG, generadores de imagen disponibles) o entrega especificación completa (layout, medidas, texto, assets, prompts) si no puedes producir el archivo.
+2. **Piezas:** produce cada pieza del mapa del Director Creativo en los formatos del canal. Método por defecto, que genera archivos PNG reales sin herramientas extra: el kit de diseño del skill `departamento-marketing` (carpeta `design/`, junto a su `SKILL.md`; búscala en `~/.claude/skills/`, `~/.agents/skills/` o en `.claude/` / `.agents/` del proyecto).
+   - Crea `marketing/05-diseno/brand.json` a partir de `design/brand.example.json` con la paleta, tipografías y logo de `02-marca.md`.
+   - Describe las piezas en un `pieces.json` (ver `design/pieces.example.json`: `format`, `layout`, `kicker`, `headline`, `subhead`, `cta`, `image`, `out`) y genera todo con: `python3 <skill>/design/make_piece.py --brand marketing/05-diseno/brand.json --spec marketing/05-diseno/pieces.json --outdir marketing/05-diseno/`
+   - Formatos: `post` 1080×1350, `square` 1080×1080, `story` 1080×1920, `banner` 1200×628, `landscape` 1920×1080. Layouts: `bold`, `photo` (requiere `image`), `center`. Requiere Python 3 y Chrome, Chromium, Edge o Brave.
+   - Revisa cada PNG generado (ábrelo) antes de entregarlo. Atiende los avisos de contraste que imprime el script.
+   - Límite del kit: solo composición tipográfica y de color con imágenes que le des. **No genera fotos ni ilustraciones.** Si la pieza las necesita, usa un generador de imágenes si hay uno conectado; si no, entrega el prompt completo y la especificación para que el humano lo genere, y deja claro qué falta.
 3. **Accesibilidad:** contraste mínimo AA, tamaños legibles en móvil, texto alternativo para cada imagen.
 4. **Variantes:** para cada pieza clave, 2 variantes testeables (una variable a la vez).
 5. **Entrega ordenada:** nombres `AAAA-MM-DD_canal_formato_pieza_vN`.

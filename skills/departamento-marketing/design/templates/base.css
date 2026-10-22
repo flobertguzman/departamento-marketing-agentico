@@ -1,0 +1,35 @@
+*{box-sizing:border-box;margin:0;padding:0}
+body{position:relative;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--font-body);
+  display:flex;flex-direction:column;justify-content:space-between;padding:calc(var(--u)*7);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.bg{position:absolute;inset:0;z-index:0}
+.shade{position:absolute;inset:0;z-index:1;pointer-events:none}
+header,main,footer{position:relative;z-index:2}
+header{display:flex;align-items:center;gap:calc(var(--u)*2);min-height:calc(var(--u)*7)}
+.logo-text{font-family:var(--font-heading);font-weight:700;font-size:calc(var(--u)*3.4);letter-spacing:.02em}
+.logo-img{height:calc(var(--u)*7);width:auto;max-width:calc(var(--u)*30);object-fit:contain}
+.kicker{font-size:calc(var(--u)*2.6);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:calc(var(--u)*2.5)}
+.kicker:empty{display:none}
+h1{font-family:var(--font-heading);font-weight:800;line-height:1.04;letter-spacing:-.01em;
+  font-size:calc(var(--u)*9.5*var(--fit));text-wrap:balance}
+.sub{font-size:calc(var(--u)*3.6);line-height:1.35;margin-top:calc(var(--u)*3);max-width:calc(var(--u)*80);opacity:.92}
+.sub:empty{display:none}
+.cta{display:inline-block;background:var(--accent);color:var(--accent-fg);font-weight:700;font-size:calc(var(--u)*3.4);
+  padding:calc(var(--u)*2.2) calc(var(--u)*4.6);border-radius:999px}
+.has-image .bg{background:var(--image) center/cover no-repeat}
+
+/* bold: texto grande sobre color de marca, con barra de acento */
+.layout-bold main{border-left:calc(var(--u)*1.4) solid var(--accent);padding-left:calc(var(--u)*4)}
+.layout-bold.has-image .shade{background:color-mix(in srgb,var(--bg) 86%,transparent)}
+
+/* photo: imagen a sangre con degradado para legibilidad */
+.layout-photo{color:#fff}
+.layout-photo .kicker{color:#fff;opacity:.92}
+.layout-photo .shade{background:linear-gradient(180deg,rgba(0,0,0,.38) 0%,rgba(0,0,0,0) 32%,rgba(0,0,0,.8) 100%)}
+.layout-photo:not(.has-image) .bg{background:linear-gradient(160deg,var(--accent),var(--bg))}
+
+/* center: anuncio o cita centrada */
+.layout-center header,.layout-center footer{justify-content:center;text-align:center}
+.layout-center main{margin:auto 0;text-align:center}
+.layout-center .sub{margin-left:auto;margin-right:auto}
+.layout-center.has-image .shade{background:color-mix(in srgb,var(--bg) 82%,transparent)}

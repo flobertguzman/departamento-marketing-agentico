@@ -1,0 +1,6 @@
+[
+  {"format": "post", "layout": "bold", "kicker": "Nuevo", "headline": "Pan de masa madre,\nhorneado esta mañana", "subhead": "Fermentación de 24 horas. Sin conservantes.", "cta": "Pide por WhatsApp", "out": "post-bold.png"},
+  {"format": "story", "layout": "center", "kicker": "Solo este fin de semana", "headline": "2x1 en croissants", "subhead": "Sábado y domingo, hasta agotar existencias.", "cta": "Reserva el tuyo", "out": "story-center.png"},
+  {"format": "banner", "layout": "bold", "headline": "Pedidos online desde las 6 a. m.", "subhead": "Entrega gratis en tu barrio.", "cta": "Ordena ahora", "out": "banner-bold.png"},
+  {"format": "square", "layout": "photo", "headline": "Hecho a mano. Todos los días.", "cta": "Conócenos", "out": "square-photo.png"}
+]

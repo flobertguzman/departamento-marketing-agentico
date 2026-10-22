@@ -1,0 +1,12 @@
+{
+  "name": "La Espiga",
+  "bg": "#2B1B12",
+  "fg": "#FFF6E9",
+  "accent": "#E8A33D",
+  "accent_fg": "#2B1B12",
+  "font_heading": "Georgia, 'Times New Roman', serif",
+  "font_body": "'Helvetica Neue', Arial, sans-serif",
+  "font_css_url": "",
+  "logo": "",
+  "lang": "es"
+}
